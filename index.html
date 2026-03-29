@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ Chi Tiêu - Đăng Ký</title>
+    <style>
+        /* Màu chủ đạo lấy từ ảnh của bạn */
+        :root {
+            --bg-color: #d1e7dd; /* Màu nền xanh mint nhẹ */
+            --card-bg: #ffffff;
+            --primary-btn: #5c8d89; /* Màu nút Đăng Nhập */
+            --secondary-text: #757575;
+            --text-main: #333;
+        }
+
+        body { 
+            margin: 0; 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--bg-color);
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+        }
+
+        /* Thẻ trắng bo góc giống hệt ảnh */
+        .card { 
+            background: var(--card-bg); 
+            padding: 40px 30px; 
+            border-radius: 30px; /* Bo góc tròn sâu */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            width: 320px; 
+            text-align: center;
+        }
+
+        .logo { width: 80px; margin-bottom: 20px; }
+        
+        h2 { 
+            color: #5c8d89; 
+            font-size: 24px; 
+            margin: 0 0 20px 0;
+        }
+
+        .input-group { margin-bottom: 12px; }
+
+        input { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 1px solid #e0e0e0; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            outline: none; 
+            background-color: #f9f9f9;
+            font-size: 14px;
+        }
+
+        input:focus { border-color: var(--primary-btn); background-color: #fff; }
+
+        /* Nút Đăng ký - Style nút đậm */
+        .btn-reg { 
+            background-color: var(--primary-btn); 
+            color: white; 
+            border: none; 
+            width: 100%; 
+            padding: 14px; 
+            border-radius: 12px; 
+            font-weight: bold; 
+            font-size: 15px;
+            cursor: pointer; 
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Nút Quay lại - Style nút viền giống nút Đăng Ký ở trang chủ */
+        .btn-back { 
+            background-color: transparent;
+            color: var(--primary-btn);
+            border: 1.5px solid var(--primary-btn);
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: block;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        .footer-note {
+            font-size: 12px;
+            color: var(--secondary-text);
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Thay icon bằng ảnh logo của bạn nếu có -->
+        <img src="https://cdn-icons-png.flaticon.com" alt="logo" class="logo">
+        
+        <h2>Đăng Ký</h2>
+
+        <form id="regForm">
+            <div class="input-group">
+                <input type="text" id="regName" placeholder="Họ và tên" required>
+            </div>
+            <div class="input-group">
+                <input type="email" id="regEmail" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="regPass" placeholder="Mật khẩu" minlength="6" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirmPass" placeholder="Xác nhận mật khẩu" required>
+            </div>
+
+            <button type="submit" class="btn-reg">XÁC NHẬN ĐĂNG KÝ</button>
+            <a href="index.html" class="btn-back">QUAY LẠI</a>
+        </form>
+
+        <p class="footer-note">Quản lý tài chính thông minh cùng chúng tôi</p>
+    </div>
+
+    <script>
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value;
+            const pass = document.getElementById('regPass').value;
+            const confirm = document.getElementById('confirmPass').value;
+
+            if (pass !== confirm) {
+                alert("Mật khẩu không khớp!");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.find(u => u.email === email)) {
+                alert("Email này đã được sử dụng!");
+                return;
+            }
+
+            users.push({ name, email, password: pass });
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert("Đăng ký thành công!");
+            window.location.href = "index.html"; 
+        });
+    </script>
+</body>
+</html>
